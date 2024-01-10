@@ -1,0 +1,77 @@
+<!--Page principale-->
+<!--Travail en jinja avec les context crées dans les views pour faire les boucles et afficher les différentes informations-->
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>apiculture</title>
+  
+  </head>
+  <body>
+    <!--test si le user est authentifié-->
+    {% if user.is_authenticated %} 
+      <p> Connecté sous {{user.username}}  |   <a href ="{% url 'accounts:logout' %}">Déconnexion</a></p>
+      <h1>Bienvenu {{user.username}}</h1>
+      <h2>Voici les différentes options du site :</h2>
+
+      <!--Option1 : enregistrer des cheptels-->
+      <h2><a href="{% url 'principal:ajout_cheptel' %}">1. Enregistrer des cheptels (groupement de ruches) :</a></h2>
+      {% if cheptels|length == 0 %} <!--test si des chepts ont déjà été enregistrés (length)-->
+        <h3>Vous n'avez actuellement aucun cheptel enregistré</h3>
+      {% else %}
+        <h3>Vous avez déjà enregistré {{cheptels|length}} cheptel{{cheptels|length|pluralize}} : </h3>
+        <ol>
+        {% for cheptel in cheptels %}<!--boucle sur les cheptels pour les afficher-->
+            <li>{{ cheptel.name|title }}</li>
+        {% endfor %}
+        </ol>
+      {% endif %}
+
+      <!--Option2 : enregistrer des ruches-->
+      <h2><a href="{% url 'principal:ajout_ruche' %}">2. Enregistrer des ruches :</a></h2>
+      {% if ruches|length == 0 %}
+        <h3>Vous n'avez actuellement aucune ruche enregistrée</h3>
+      {% else %}
+        <h3>Vous avez déjà enregistré {{ruches|length}} ruche{{ruches|length|pluralize}} : </h3>
+        <ol>
+        {% for ruche in ruches %}
+            <li><a href="{% url 'principal:detail_ruche' ruche.id %}">{{ ruche.name|title }}</a></li><!--permet d'aller sur le html du détail de la ruche-->
+        {% endfor %}
+        </ol>
+      {% endif %}
+
+      <!--Option3 : enregistrement des interventions-->
+      <h2><a href="{% url 'principal:ajout_intervention' %}">3. Enregistrer des interventions sur une ruche :</a></h2>
+      {% if interventions|length == 0 %}
+        <h3>Vous n'avez actuellement aucune intervention de réalisée</h3>
+      {% else %}
+        <h3>Vous avez déjà enregistré {{interventions|length}} intervention{{interventions|length|pluralize}} : </h3>
+        <ol>
+        {% for intervention in interventions %}
+            <li>{{ intervention.type_action|title }} : {{intervention.date}}</li>
+        {% endfor %}
+        </ol>
+      {% endif %}
+
+      <!--Option4 : indicateurs de l'user-->
+      <h2>4. Voir vos indicateurs :</h2>
+        <ol>
+          <li>nombre d'interventions sur Cellules royales : {{interventionsSuppression_cellules_royales|length}} </li>
+          <li>nombre d'interventions sur la vérification de la santé : {{interventionsverification_sante|length}} </li>
+          <li>nombre de récoltes : {{interventionsRecole|length}} </li>
+          <li>nombre de pose de hausses : {{interventionsPose_hausses|length}} </li>
+          <li>nombre de destruction : {{interventionsDestruction|length}} </li>
+          <li>nombre de traitements : {{interventionsTraitement|length}} </li>
+        </ol>
+      
+
+      <!--Affiche le login et l'enregistrement si l'utilisateur n'est pas connecté-->
+      {% else %}
+      <p><a href="{% url 'accounts:login' %}">Connexion</a> |
+      <a href="{% url 'accounts:register' %}">Inscription</a></p>
+      <h1>Bienvenu sur le site de gestion de cheptel de ruches</h1>
+      <p>Merci de vous identifier via une connexion ou une inscription</p>
+    {% endif %}
+  </body>
+</html>

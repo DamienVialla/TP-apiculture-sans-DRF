@@ -1,0 +1,12 @@
+<h1>Connexion</h1>
+
+{% for message in message %}
+    <p>{{message}}</p>
+{%endfor%}
+
+<form method='post'>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value ="Se connecter">
+</form>
+<p><a href="{% url 'principal:index' %}">&laquo; Revenir à la page principale</a></p>

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Ruche par cheptel</title>
+  </head>
+  <body>
+    <h1>Infos sur la ruche "{{ruches.name}}" </h1>
+    <p>Cheptel : {{ruches.cheptel}}</p>
+    <p>Status de la ruche : {{ruches.status_hive}}</p>
+    
+    <p>Age de la reine : {{age}} mois (née le {{ruches.queen_birthday}}) </p>
+    <p>Type d'abeille : {{ruches.type_bee}}</p>
+    <p>Contamination : {{ruches.contamination}}</p>
+
+    <p><a href="{% url 'principal:index' %}">&laquo; Revenir à la page principale</a></p>
+  </body>
+</html>
